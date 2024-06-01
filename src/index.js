@@ -1,15 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { sendToVercelAnalytics } from './vitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import { MantineProvider, createTheme } from "@mantine/core";
+import "@mantine/core/styles.css";
+import axios from "axios";
 
-ReactDOM.render(
+axios.defaults.baseURL = process.env.REACT_APP_AXIOS_BASE_URL;
+axios.defaults.headers = {
+  accept: "application/json",
+  "Content-Type": "application/json",
+  authorization: `Basic ${process.env.REACT_APP_BASIC_AUTH_PAYMONGO}`,
+};
+
+const theme = createTheme({
+  fontFamily: "Poppins, sans-serif",
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <MantineProvider theme={theme}>
+      <App />
+    </MantineProvider>
+  </React.StrictMode>
 );
-
-reportWebVitals(sendToVercelAnalytics);
